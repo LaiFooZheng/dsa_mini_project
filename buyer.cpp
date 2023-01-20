@@ -5,16 +5,23 @@
 #include <cstdlib>
 #include <vector>
 #include <limits>
+#include <string>
 
 using namespace std;
 
-buyer::buyer(string m_name) : name(m_name), orderID(0), total_pay(0), cash(0), change(0), pay_status(false) {}
-buyer::buyer() : name(""), orderID(0), total_pay(0), cash(0), change(0), pay_status(false) {}
+buyer::buyer(string m_name) : name(m_name), address(" "), orderID(0), total_pay(0), cash(0), change(0), pay_status(false) {}
+buyer::buyer() : name(""), address(" "), orderID(0), total_pay(0), cash(0), change(0), pay_status(false) {}
 
 string buyer::getname() 
 {
     return name;
 }
+
+string buyer::getaddress() 
+{
+    return address;
+}
+
 int buyer::getorderID() {
     return orderID ;
 }
@@ -144,6 +151,12 @@ void buyer::AddItem(LinkedList& storage, int count, int id[], string name[], dou
                 cin >> choice;
             } while (choice != 1 && choice != 2);
         }
+
+        
+      
+        // delivery() ;
+        
+        
     } while (choice == 1);
     system("pause");
     system("cls");
@@ -266,4 +279,28 @@ void buyer::payment()
         cout << "Cash: " << "RM " << fixed << setprecision(2) << cash << endl;
         cout << "Change: " << "RM " << fixed << setprecision(2) << change << endl;
     }
+}
+
+bool buyer::delivery(){
+
+    int choice ;
+    // string m_address ;
+    int MAX = 100 ; 
+    do
+    {
+        cout << "\nDelivery?\n 1. Yes\n 2. No" ;
+        cout << "\n> " ;
+        cin >> choice ;
+    } while (choice != 1 && choice != 2);
+
+    if(choice == 1){
+        cout << "\nPlease enter your address: " ;
+        
+        cin.ignore();
+        getline(cin, address) ;
+        return true ;
+    }
+    else    
+        return false ;
+
 }

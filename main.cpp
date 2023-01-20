@@ -1,6 +1,6 @@
 // SECJ2013-5 STRUKTUR DATA DAN ALGORITMA (DATA STRUCTURE AND ALGORITHM)
 // SEMESTER 1 2022/2023
-// Mini Project
+// Assignment 1
 // LAI FOO ZHENG (A21EC0040)
 // MUHAMMAD ADAM BIN YAACOB (A21EC0060)
 // ANG WEI LONG (A21EC0162)
@@ -9,7 +9,7 @@
 #include <fstream>
 #include <string>
 #include <iomanip>
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 #include <limits>
 #include "item.h"
 #include "buyer.h"
@@ -18,6 +18,7 @@
 #include "Buyernode.h"
 #include "LinkedList.h"
 #include "BuyerLinkedList.h"
+#include "Delivery.h"
 
 using namespace std;
 
@@ -52,6 +53,7 @@ LinkedList items ;
 BuyerLinkedList buyers;
 vector<item>items_copy;
 Seller s;
+DeliveryQueue q ;
 
 int main()
 {
@@ -82,9 +84,7 @@ int main()
         {
             infile >> item_id[i] >> item_name[i] >> item_price[i] >> item_quantity[i];
             item seller_item(item_id[i], item_name[i], item_price[i], item_quantity[i], 0);
-
             items.addNode(seller_item);
-
             items_copy.push_back(seller_item);
         }
 
@@ -123,7 +123,7 @@ bool mainMenu(int count, int id[], string name[], double price[], int quantity[]
     do 
     {
         cout << "SHOPPING SYSTEM\n\n"
-            << "MAIN MENU\n"
+            << "Main Menu\n"
             << "Please select your role:\n"
             << "1. Seller\n"
             << "2. Buyer\n"
@@ -160,127 +160,102 @@ bool mainMenu(int count, int id[], string name[], double price[], int quantity[]
 }
 
 // Simple Sort (Bubble Sort)
-void bubbleSortAsc(Node *&head) 
-{
-    bool sorted = false;  // flag to track if the list is sorted
-    while (!sorted) 
-    {
-        sorted = true;  // assume the list is sorted until proven otherwise
-        Node *current = head;  // start at the beginning of the list
-        while (current->next != NULL) // stop before the end of the list
-        {  
-            if (current->data.getQuantity() > current->next->data.getQuantity()) // if the current element is greater than the next element
-            {  
-                item temp = current->data;  // swap the elements
-                current->data = current->next->data;
-                current->next->data = temp ;
-                sorted = false;  // mark the list as not sorted
-            }
-            current = current->next;  // move to the next element
-        }
+
+void bubbleSortAsc(Node *&head) {
+  bool sorted = false;  // flag to track if the list is sorted
+  while (!sorted) {
+    sorted = true;  // assume the list is sorted until proven otherwise
+    Node *current = head;  // start at the beginning of the list
+    while (current->next != NULL) {  // stop before the end of the list
+      if (current->data.getQuantity() > current->next->data.getQuantity()) {  // if the current element is greater than the next element
+        item temp = current->data;  // swap the elements
+        current->data = current->next->data;
+        current->next->data = temp ;
+        sorted = false;  // mark the list as not sorted
+      }
+      current = current->next;  // move to the next element
     }
+  }
+}
+void bubbleSortDes(Node *&head) {
+  bool sorted = false;  // flag to track if the list is sorted
+  while (!sorted) {
+    sorted = true;  // assume the list is sorted until proven otherwise
+    Node *current = head;  // start at the beginning of the list
+    while (current->next != NULL) {  // stop before the end of the list
+      if (current->data.getQuantity() < current->next->data.getQuantity()) {  // if the current element is greater than the next element
+        item temp = current->data;  // swap the elements
+        current->data = current->next->data;
+        current->next->data = temp ;
+        sorted = false;  // mark the list as not sorted
+      }
+      current = current->next;  // move to the next element
+    }
+  }
 }
 
-void bubbleSortDes(Node *&head) 
-{
-    bool sorted = false;  // flag to track if the list is sorted
-    while (!sorted) 
-    {
-        sorted = true;  // assume the list is sorted until proven otherwise
-        Node *current = head;  // start at the beginning of the list
-        while (current->next != NULL) // stop before the end of the list
-        { 
-            if (current->data.getQuantity() < current->next->data.getQuantity()) // if the current element is greater than the next element
-            {  
-                item temp = current->data;  // swap the elements
-                current->data = current->next->data;
-                current->next->data = temp ;
-                sorted = false;  // mark the list as not sorted
-            }
-            current = current->next;  // move to the next element
-        }
-    }
-}
 
 // Advance Sort (Quick Sort)
-void quickSortAsc(Node *&head, Node *end) 
-{
-    if (head == NULL || head == end) 
-    {
-        return;  // base case: list is empty or has only one element
-    }
-    Node *pivot = partitionAsc(head, end);  // partition the list around the pivot
-    quickSortAsc(head, pivot);  // sort the left half of the list
-    quickSortAsc(pivot->next, end);  // sort the right half of the list
+void quickSortAsc(Node *&head, Node *end) {
+  if (head == NULL || head == end) {
+    return;  // base case: list is empty or has only one element
+  }
+  Node *pivot = partitionAsc(head, end);  // partition the list around the pivot
+  quickSortAsc(head, pivot);  // sort the left half of the list
+  quickSortAsc(pivot->next, end);  // sort the right half of the list
 }
 
-Node* partitionAsc(Node *&head, Node *end) 
-{
-    Node *pivot = end;                            // choose the last element as the pivot
-    Node *current = head;
-    Node *prev = NULL;
-    while (current != pivot) 
-    {
-        if (current->data.getPrice() < pivot->data.getPrice()) // if the current element is smaller than the pivot
-        {          
-            if (prev != NULL) 
-            {                       // if the current element is not the head of the list
-                prev->next = current->next;             // remove the current element from the list
-            } 
-            else 
-            {
-                head = current->next;                   // update the head of the list
-            }
-            current->next = pivot->next;              // insert the current element after the pivot
-            pivot->next = current;
-            current = prev;                           // move the current element back to the previous position
-        }
-        prev = current;                             // move to the next element
-        current = current->next;
+Node* partitionAsc(Node *&head, Node *end) {
+  Node *pivot = end;                            // choose the last element as the pivot
+  Node *current = head;
+  Node *prev = NULL;
+  while (current != pivot) {
+    if (current->data.getPrice() < pivot->data.getPrice()) {          // if the current element is smaller than the pivot
+      if (prev != NULL) {                       // if the current element is not the head of the list
+        prev->next = current->next;             // remove the current element from the list
+      } else {
+        head = current->next;                   // update the head of the list
+      }
+      current->next = pivot->next;              // insert the current element after the pivot
+      pivot->next = current;
+      current = prev;                           // move the current element back to the previous position
     }
-    return pivot;                                 // return the pivot element
-    }
-
-void quickSortDes(Node *&head, Node *end) 
-{
-    if (head == NULL || head == end) 
-    {
-        return;  // base case: list is empty or has only one element
-    }
-    Node *pivot = partitionDes(head, end);  // partition the list around the pivot
-    quickSortDes(head, pivot->prev);  // sort the left half of the list
-    quickSortDes(pivot->next, end);  // sort the right half of the list
+    prev = current;                             // move to the next element
+    current = current->next;
+  }
+  return pivot;                                 // return the pivot element
+}
+void quickSortDes(Node *&head, Node *end) {
+  if (head == NULL || head == end) {
+    return;  // base case: list is empty or has only one element
+  }
+  Node *pivot = partitionDes(head, end);  // partition the list around the pivot
+  quickSortDes(head, pivot->prev);  // sort the left half of the list
+  quickSortDes(pivot->next, end);  // sort the right half of the list
 }
 
-Node* partitionDes(Node *&head, Node *end) 
-{
-    Node *pivot = end;  // choose the last element as the pivot
-    Node *current = head;
-    while (current != pivot) 
-    {
-        if (current->data.getPrice() <= pivot->data.getPrice()) // if the current element is smaller than the pivot
-        {    
-            if (current->prev != NULL) // if the current element is not the head of the list
-            {                              
-                current->prev->next = current->next; // remove the current element from the list
-            } 
-            else 
-            {
-                head = current->next; // update the head of the list
-            }
-            current->next->prev = current->prev;
-            current->prev = pivot->prev; // insert the current element before the pivot
-            pivot->prev = current;
-            current->next = pivot;
-            current = current->prev; // move the current element back to the previous position
-        } 
-        else 
-        {
-            current = current->next; // move to the next element
-        }
+Node* partitionDes(Node *&head, Node *end) {
+  Node *pivot = end;                                        // choose the last element as the pivot
+  Node *current = head;
+  while (current != pivot) {
+    if (current->data.getPrice() < pivot->data.getPrice()) {    // if the current element is smaller than the pivot
+      if (current->prev != NULL) {                              // if the current element is not the head of the list
+        current->prev->next = current->next;                    // remove the current element from the list
+      } else {
+        head = current->next;                                   // update the head of the list
+      }
+      current->next->prev = current->prev;
+      current->prev = pivot->prev;                              // insert the current element before the pivot
+      pivot->prev = current;
+      current->next = pivot;
+      current = current->prev;                                  // move the current element back to the previous position
+    } else {
+      current = current->next;                                  // move to the next element
     }
-    return pivot; // return the pivot element
+  }
+  return pivot;                                                 // return the pivot element
 }
+
 
 // Seller Menu Functionality
 void sellerMenu(int count)
@@ -289,13 +264,14 @@ void sellerMenu(int count)
     
     do
     {
-        cout << "SELLER MENU\n\nSelect Option\n"
-            << "1. View Inventory\n2. View Sale(s)\n3. Delete Item\n4. Add Item\n5. Buyer Order Details\n6. Back to Main Menu\n> ";
+        cout << "Seller Menu\nSelect Option\n"
+            << "1. View Inventory\n2. View Sale\n3. Delete item\n4. Add item\n5. Find buyer order details\n6. Display Delivery List\n7. Update completed delivery\n8. Back to Main Menu\n> ";
         cin >> choice;
 
         if (choice == 1)
         {
-            // s.Inventory(items, count);
+            cout << "\nCurrent Inventory\n";
+            s.Inventory(items, count);
             displayMenu();
         }
         else if (choice == 2)
@@ -317,31 +293,39 @@ void sellerMenu(int count)
         }
         else if (choice == 5)
         {
-            if (buyers.getSize() == 0)
-            {
-                system("cls");
-                cout << "No buyers available\n";
+            if(buyers.getSize() == 0){
+                system("cls") ;
+                cout << "No buyer yet !! \n" ;
             }
-            else
-            {
-                do
-                {
-                    system("cls");
-                    int choice;
-                    cout << "Buyer Order Details\n\n";
+            else{
+                do{
+                    system("cls") ;
+                    int choice ;
+                    cout << "BUYER ORDER DETALS " ;
                     s.FindOrder(buyers) ;
 
-                    do
-                    {
-                        cout << "Find details of another buyer?\n" << "1. YES 2. NO\n" << "> ";
-                        cin >> choice;
-                    } while (choice != 1 && choice != 2);
-                } while (choice != 2);
+                    do{
+                    cout << "\nFind another order details ? \n1. YES 2. NO" ;
+                    cout << "\n>" ;
+                    cin >> choice ;
+                    }while(choice != 1 && choice != 2) ;
+                }while(choice != 2 ) ;
             }
             clearConsole() ;
             return;
         }
-        else if (choice == 6)
+        else if (choice == 6)   // display delivery list
+        {   
+            q.display() ;
+            return;
+        }
+        else if (choice == 7)   // display delivery list
+        {   
+            q.dequeue() ;
+            q.display() ;
+            return;
+        }
+        else if (choice == 8)
         {
             clearConsole();
             return;
@@ -361,7 +345,7 @@ void buyerMenu(int count, int id[], string name[], double price[], int quantity[
     int choice;
     do
     {
-        cout << "BUYER MENU\n\nSelect Option\n"
+        cout << "Buyer Menu\nSelect Option\n"
             << "1. Sort & Display List\n2. Make an Order\n3. Make Payment\n4. Back to Main Menu\n> ";
         cin >> choice;
 
@@ -381,6 +365,17 @@ void buyerMenu(int count, int id[], string name[], double price[], int quantity[
             buyer cus = buyer(cus_name);
             cus.AddItem(items, count, id, name, price, quantity);
             buyers.addNode(cus);
+
+            bool delivery = cus.delivery() ;
+
+            if(delivery == true ){
+
+                
+                q.enqueue(cus);
+
+                
+            }
+
             clearConsole();
         }
         else if (choice == 3)
@@ -390,19 +385,15 @@ void buyerMenu(int count, int id[], string name[], double price[], int quantity[
                 return;
             int index = 0;
             bool status = true;
-            if (buyers.getSize() > 1) 
-            {
+            if (buyers.getSize() > 1) {
                 string name;
-                do 
-                {
+                do {
                     cout << "Enter Name: ";
                     cin >> name;
                     
-                    while (current != NULL) 
-                    {
+                    while (current != NULL) {
 
-                        if (name == current->data.getname()) 
-                        {
+                        if (name == current->data.getname()) {
                             status = false;
                             break;
                         }
@@ -435,7 +426,7 @@ void displayMenu()
 {
     int choice;
     Node *head = items.gethead();  // pointer to the head of the linked list
-    Node *last = items.gethead();
+    Node* last = items.gethead() ;
     do
     {
         clearConsole();
@@ -457,10 +448,6 @@ void displayMenu()
             int sort_choice;
             do
             {
-                //QuickSort KIV
-                cout << "We will implement QuickSort soon ;D\n";
-                break;
-
                 cout << "1. Ascending\n"
                     << "2. Descending\n"
                     << "3. Back\n"
@@ -537,14 +524,14 @@ void displayMenu()
         {
             int list_choice;
             displayInputList();
-            cout << "\nDo you wish to sort the list to how it was originally in the Input File?\n 1. YES\n 2. NO\n" << endl;
+            cout << "\nDo you wish to sort the list to how it was originally in the Input File?\n 1. Yes\n 2. No\n" << endl;
             cout << "> ";
             cin >> list_choice;
 
             if (list_choice == 1)
             {
                 makeOriList();
-                // clearConsole();
+                clearConsole();
             }
             else if (list_choice == 2)
             {
@@ -600,7 +587,7 @@ void makeOriList()
     Node *current = items.gethead(); 
     int i = 0 ;
 
-    cout << "List was sorted back to how it was originally in the Input File\n";
+    cout << "List was sorted back to how it was originally in the Input File";
     cout << left << setw(10) << "ID" << setw(35) << "Item Name" << setw(25) << "Price (RM)" << setw(25) << "Quantity" << endl;
     cout << "===============================================================================\n";
     cout << fixed;
@@ -610,6 +597,5 @@ void makeOriList()
         current->data = items_copy[i];
         cout << left << setw(10) << current->data.getID() << setw(35) << current->data.getName() << setw(25) << current->data.getPrice() << setw(25) << current->data.getQuantity() << endl;
         current = current->next;
-        i++;
     }
 }
