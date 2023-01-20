@@ -265,7 +265,7 @@ void sellerMenu(int count)
     do
     {
         cout << "Seller Menu\nSelect Option\n"
-            << "1. View Inventory\n2. View Sale\n3. Delete item\n4. Add item\n5. Find buyer order details\n6. Display Delivery List\n7. Update completed delivery\n8. Back to Main Menu\n> ";
+            << "1. View Inventory\n2. View Sale\n3. Delete item\n4. Add item\n5. Find buyer order details\n6. Display Delivery List\n7. Update the delivery list of an item that has been shipped. \n8. Back to Main Menu\n> ";
         cin >> choice;
 
         if (choice == 1)
@@ -316,14 +316,22 @@ void sellerMenu(int count)
         }
         else if (choice == 6)   // display delivery list
         {   
+            system("cls") ;
             q.display() ;
-            return;
+            clearConsole() ;
+            
         }
         else if (choice == 7)   // display delivery list
         {   
+            system("cls") ;
+            
+            if(q.isEmpty() == false){
+                DeliveryNode temp = q.front() ;
+                cout << "Name : " << temp.data.getname() << endl<< "Order ID : " << temp.data.getorderID() << endl << "has been successfully shipped to " << temp.data.getaddress() << endl ;
+            }
             q.dequeue() ;
             q.display() ;
-            return;
+            clearConsole() ;
         }
         else if (choice == 8)
         {

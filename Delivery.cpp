@@ -1,5 +1,6 @@
 #include "Delivery.h"
 
+#include <iomanip>
 
 
 DeliveryQueue::DeliveryQueue() {
@@ -28,7 +29,7 @@ void DeliveryQueue::enqueue(buyer x) {
 buyer DeliveryQueue::dequeue() {
     DeliveryNode* temp = new DeliveryNode;
     if (head == nullptr) {
-        cout << "Queue is empty" << endl;
+        cout << "Delivery Queue is empty" << endl;
         return buyer();
     }
     temp = head;
@@ -44,7 +45,7 @@ bool DeliveryQueue::isEmpty() {
 // function to return the front element of the queue
 buyer DeliveryQueue::front() {
     if (head == nullptr) {
-        cout << "Queue is empty" << endl;
+        cout << "Delivery Queue is empty" << endl;
         return buyer();
     }
     return head->data;
@@ -53,7 +54,7 @@ buyer DeliveryQueue::front() {
 // function to return the rear element of the queue
 buyer DeliveryQueue::rear() {
     if (tail == nullptr) {
-        cout << "Queue is empty" << endl;
+        cout << "Delivery Queue is empty" << endl;
         return buyer();
     }
     return tail->data;
@@ -61,12 +62,12 @@ buyer DeliveryQueue::rear() {
 
 void DeliveryQueue::display() {
         if (head == nullptr) {
-            cout << "Queue is empty" << endl;
+            cout << "Delivery Queue is empty" << endl;
             return;
         }
         DeliveryNode* temp = head;
         while (temp != nullptr) {
-            cout << "\nAddress : " <<  temp->data.getaddress() << endl ;
+            cout << left << "\nAddress : " << setw(40) <<  temp->data.getaddress()  << "Name: " << temp->data.getname()<< endl ;
             temp->data.PrintOrder(false);
             temp = temp->next;
         }
