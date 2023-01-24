@@ -26,13 +26,14 @@ class buyer
         int getorderID() ;
         void PrintDetail(double&);
         void AddItem(LinkedList&, int, int[], string[], double[], int[]);
-        void removeItem();
+        void removeItem(buyer &);
         void PrintOrder(bool);
         void payment();
         bool delivery();
         // void PrintDelivery();
 
         //overloaded operator
-        int operator+(const item &) ;
+        double operator+(const item &) ;
+        double operator-(const item &) ;
 };
 

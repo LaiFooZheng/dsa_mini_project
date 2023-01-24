@@ -30,10 +30,15 @@ double buyer::getTotalPay(){
     return total_pay ;
 }
 //operator overloading 
-int buyer::operator+(const item &orderitem){
+double buyer::operator+(const item &orderitem){
 
-    
-    return this -> total_pay + orderitem.getTotal() ;
+    this -> total_pay = total_pay + orderitem.getTotal() ;
+    return this -> total_pay ;
+}
+double buyer::operator-(const item &orderitem){
+
+    this -> total_pay = total_pay - orderitem.getTotal() ;
+    return this -> total_pay ;
 }
 
 void buyer::PrintDetail(double& sale)
@@ -124,7 +129,7 @@ void buyer::AddItem(LinkedList& storage, int count, int id[], string name[], dou
                 {
                     system("pause");
                     system("cls");
-                    removeItem();
+                    removeItem(b);
                     //refresh page
                     system("pause");
                     system("cls");
@@ -165,7 +170,7 @@ void buyer::AddItem(LinkedList& storage, int count, int id[], string name[], dou
     // cout << "\nOrder ID: " << orderID << endl << endl ;
 }
 
-void buyer::removeItem() {
+void buyer::removeItem(buyer &b) {
     int num, index , choice;
     bool pass = false;
     bool pay = false;
@@ -197,7 +202,7 @@ void buyer::removeItem() {
     } while (pass == false);
 
     //updating total
-    total_pay -= items[index - 1].getTotal();
+    total_pay = b - items[index - 1];
     num -= 1;
     items.erase(next(items.begin(), num));
     system("pause");
