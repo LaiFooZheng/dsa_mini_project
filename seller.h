@@ -20,7 +20,7 @@ class Seller {
         Seller();
         void Inventory(LinkedList&, int);
         void AddItem(LinkedList&, int );
-        void DeleteItem(LinkedList&, int, int) ;
+        void DeleteItem(LinkedList&, int) ;
         void FindOrder(BuyerLinkedList & ) ;
 
         void PrintSellerItem();

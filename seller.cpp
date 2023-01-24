@@ -51,15 +51,15 @@ void Seller::PaymentInfo(BuyerLinkedList& buyers)
     }
 }
 
-void Seller::DeleteItem(LinkedList& storage, int index, int count)
+void Seller::DeleteItem(LinkedList& storage, int count)
 {
-    int choice = 1, result;
+    int choice = 1, result , index;
 
     do
     {
         Inventory(storage, count);
         cout << "\nChoose item to be deleted: \nEnter ID: ";
-
+        cin >> index ;
         Node *head = storage.gethead();
         result = storage.deleteNode(head, index);
         system("cls");
@@ -94,7 +94,8 @@ void Seller::AddItem(LinkedList & items, int count){
         cout << "Enter Item ID: "; 
         cin >> ID ; 
         cout << "Enter Item Name : "; 
-        cin >> name ; 
+        cin.ignore() ;
+        getline(cin,name) ; 
         cout << "Enter Item Price : "; 
         cin >> price ; 
         cout << "Enter Item Quantity : "; 
@@ -108,7 +109,7 @@ void Seller::AddItem(LinkedList & items, int count){
         
         do
         {
-            cout << "Do you want to add another item ? \n1. YES 2. NO ";
+            cout << "\n\nDo you want to add another item ? \n1. YES 2. NO ";
             cout << "\n>";
             cin >> choice; 
         } while (choice != 1 && choice != 2 );

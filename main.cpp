@@ -283,7 +283,7 @@ void sellerMenu(int count)
         else if (choice == 3)
         {   
             int index ;
-            s.DeleteItem(items, index, count) ;
+            s.DeleteItem(items, count) ;
             return;
         }
         else if (choice == 4)
