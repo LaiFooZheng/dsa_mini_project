@@ -282,15 +282,16 @@ void sellerMenu(int count)
         }
         else if (choice == 3)
         {   
-            int index ;
+            system("cls") ;
             s.DeleteItem(items, count) ;
-            return;
+            // return;
         }
         else if (choice == 4)
         {   
+            system("cls") ;
             s.AddItem(items, count) ;
             displayList() ;
-            return;
+            // return;
         }
         else if (choice == 5)
         {
@@ -299,21 +300,21 @@ void sellerMenu(int count)
                 cout << "No buyer yet !! \n" ;
             }
             else{
+                    int choice_ ;
                 do{
                     system("cls") ;
-                    int choice ;
                     cout << "BUYER ORDER DETALS " ;
                     s.FindOrder(buyers) ;
 
                     do{
                     cout << "\nFind another order details ? \n1. YES 2. NO" ;
                     cout << "\n>" ;
-                    cin >> choice ;
-                    }while(choice != 1 && choice != 2) ;
-                }while(choice != 2 ) ;
+                    cin >> choice_ ;
+                    }while(choice_ != 1 && choice_ != 2) ;
+                }while(choice_ == 1) ;
             }
             clearConsole() ;
-            return;
+            // break;
         }
         else if (choice == 6)   // display delivery list
         {   
@@ -459,45 +460,46 @@ void displayMenu()
             displayList();
         }
         else if (choice == 2)
-        {
-            int sort_choice;
-            do
-            {
-                cout << "1. Ascending\n"
-                    << "2. Descending\n"
-                    << "3. Back\n"
-                    << "> ";
-                cin >> sort_choice;
-                if (sort_choice == 1)
-                {
-                    cout << "\nSorted the list in Ascending Order based on Price\n\n";
+        {   
+            cout << "\nWe will implement this soon ;D" << endl ;
+            // int sort_choice;
+            // do
+            // {
+            //     cout << "1. Ascending\n"
+            //         << "2. Descending\n"
+            //         << "3. Back\n"
+            //         << "> ";
+            //     cin >> sort_choice;
+            //     if (sort_choice == 1)
+            //     {
+            //         cout << "\nSorted the list in Ascending Order based on Price\n\n";
                     
-                    quickSortAsc(head, NULL);  // sort the linked list
+            //         quickSortAsc(head, NULL);  // sort the linked list
 
-                    displayList();
-                    break;
-                }
-                else if (sort_choice == 2)
-                {   
-                    while (last->next != NULL)
-                        last = last->next;
-                    cout << "\nSorted the list in Descending Order based on Price\n\n";
-                    quickSortDes(head, last) ;
-                    // quickSortDes(items, items.getSize() - 1);
-                    displayList();
-                    break;
-                }
-                else if (sort_choice == 3)
-                {
-                    break;
-                }
-                else
-                {
-                    clearBuffer();
-                    cout << "Invalid Input\n";
-                    break;
-                }
-            } while (true);
+            //         displayList();
+            //         break;
+            //     }
+            //     else if (sort_choice == 2)
+            //     {   
+            //         while (last->next != NULL)
+            //             last = last->next;
+            //         cout << "\nSorted the list in Descending Order based on Price\n\n";
+            //         quickSortDes(head, last) ;
+            //         // quickSortDes(items, items.getSize() - 1);
+            //         displayList();
+            //         break;
+            //     }
+            //     else if (sort_choice == 3)
+            //     {
+            //         break;
+            //     }
+            //     else
+            //     {
+            //         clearBuffer();
+            //         cout << "Invalid Input\n";
+            //         break;
+            //     }
+            // } while (true);
         }
         else if (choice == 3)
         {
