@@ -25,7 +25,7 @@ void DeliveryQueue::enqueue(buyer x) {
     cout << "\nOrder has been added to the delivery list\n" ;
 }
 
-// function to remove an element from the queue
+// function to remove an element from the delivery queue
 buyer DeliveryQueue::dequeue() {
     DeliveryNode* temp = new DeliveryNode;
     if (head == nullptr) {
@@ -37,12 +37,12 @@ buyer DeliveryQueue::dequeue() {
     return temp->data;
 }
 
-// function to check if the queue is empty
+// function to check if the delivery queue is empty
 bool DeliveryQueue::isEmpty() {
     return (head == nullptr);
 }
 
-// function to return the front element of the queue
+// function to return the front element of the delivery queue
 buyer DeliveryQueue::front() {
     if (head == nullptr) {
         cout << "Delivery Queue is empty" << endl;
@@ -51,7 +51,7 @@ buyer DeliveryQueue::front() {
     return head->data;
 }
 
-// function to return the rear element of the queue
+// function to return the rear element of the delivery queue
 buyer DeliveryQueue::rear() {
     if (tail == nullptr) {
         cout << "Delivery Queue is empty" << endl;

@@ -8,7 +8,7 @@ using namespace std;
 class buyer 
 {
     private:
-        string name = " ", address = " ";  
+        string name = "", address = "";  
         int orderID, cash;
         bool pay_status = false;    
         double total_pay, change;

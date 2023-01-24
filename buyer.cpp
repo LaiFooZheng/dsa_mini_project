@@ -294,10 +294,16 @@ bool buyer::delivery(){
     } while (choice != 1 && choice != 2);
 
     if(choice == 1){
-        cout << "\nPlease enter your address: " ;
-        
-        cin.ignore();
-        getline(cin, address) ;
+        do{
+            cout << "\nPlease enter your address: " ;
+            
+            cin.ignore();
+            getline(cin, address) ;
+            
+            if(address.empty()){
+                cout << "\nInvalid address. Please try again." << endl ;
+            }
+        }while(address.empty());
         return true ;
     }
     else    

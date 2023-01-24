@@ -275,7 +275,8 @@ void sellerMenu(int count)
             displayMenu();
         }
         else if (choice == 2)
-        {
+        {   
+            system("cls") ;
             s.PaymentInfo(buyers);
             clearConsole();
         }
@@ -366,10 +367,16 @@ void buyerMenu(int count, int id[], string name[], double price[], int quantity[
             cout << "Place your order based on the menu" << endl;
             displayList();
 
-            string cus_name;
-            cout << "\nPlease enter the details of your order";
-            cout << "\nName: ";
-            cin >> cus_name;
+                string cus_name;
+            while(cus_name.empty()){
+                cout << "\nPlease enter the details of your order";
+                cout << "\nName: ";
+                cin.ignore() ;
+                getline(cin,cus_name);
+
+                if(cus_name.empty())
+                    cout << "\nInvalid input. Please try again." << endl ;
+            }
             buyer cus = buyer(cus_name);
             cus.AddItem(items, count, id, name, price, quantity);
             buyers.addNode(cus);
